@@ -22,7 +22,13 @@
     - python3-pip
 
 - name: Install Kubernetes Plugins Debian
-  shell: pip3 install setuptools kubernetes --break-system-packages
+  pip:
+    name:
+      - setuptools
+      - kubernetes
+    state: latest
+    executable: pip3
+    extra_args: "--break-system-packages"
 
 - name: Création du Répertoire /.kube
   file:
@@ -31,7 +37,7 @@
     mode: '0755'
 
 - name: Téléchargement k3s
-  shell: 
+  shell:
     cmd: "{{ item }}"
     chdir: /tmp
   loop:
