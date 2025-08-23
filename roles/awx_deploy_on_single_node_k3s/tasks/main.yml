@@ -23,7 +23,9 @@
 
 - name: Install Kubernetes Plugins Debian
   pip:
-    name: kubernetes
+    name:
+      - setuptools
+      - kubernetes
     state: latest
     extra_args: "--break-system-packages"
 
