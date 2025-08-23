@@ -21,6 +21,12 @@
     - python3
     - python3-pip
 
+- name: Upgrade PIP
+  pip:
+    name: pip
+    extra_args: --upgrade
+    executable: pip3
+
 - name: Install Kubernetes Plugins Debian
   pip:
     name:
