@@ -22,18 +22,7 @@
     - python3-pip
 
 - name: Install Kubernetes Plugins Debian
-  pip:
-    name:
-      - setuptools
-      - kubernetes
-    state: latest
-    extra_args: "--break-system-packages"
-
-- name: Install Kubernetes Plugins Ubuntu
-  pip:
-    name: kubernetes
-    state: present
-  when: ansible_distribution == 'Ubuntu'
+  shell: pip3 install setuptools kubernetes --break-system-packages
 
 - name: Création du Répertoire /.kube
   file:
