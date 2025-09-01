@@ -11,6 +11,14 @@ spec:
   projects_persistence: true
   projects_storage_access_mode: ReadWriteOnce
   nodeport_port: 30080
+  postgres_init_container_commands: |
+    chown 26:0 /var/lib/pgsql/data
+    chmod 700 /var/lib/pgsql/data
+  postgres_storage_requirements:
+    requests:
+      storage: 8Gi
+    limits:
+      storage: 50Gi
   web_extra_volume_mounts: |
     - name: static-data
       mountPath: /var/lib/projects
