@@ -74,13 +74,13 @@
     group: root
     mode: '0755'
   loop:
-    - pvc.yml
+    - awx-pvc.yml
     - awx-deploy.yml
 
 - name: Création Stockage PVC - Persistant
   k8s:
     state: present
-    src: "{{path_awx_tmp}}/pvc.yml"
+    src: "{{path_awx_tmp}}/awx-pvc.yml"
     
 - name: Awx Deploiement - Operator - Web - Postgres
   k8s:
