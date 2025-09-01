@@ -20,7 +20,7 @@ spec:
     limits:
       storage: 15Gi
   web_extra_volume_mounts: |
-    - name: static-data
+    - name: awx-static-data
       mountPath: /var/lib/projects
   extra_volumes: |
     - name: awx-static-data
