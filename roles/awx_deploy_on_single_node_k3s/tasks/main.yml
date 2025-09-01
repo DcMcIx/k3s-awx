@@ -110,8 +110,6 @@
   shell:
     cmd: kubectl get secret awx-admin-password -o jsonpath="{.data.password}" | base64 --decode
   register: awxpasswd
-  ignore_errors: yes
+
 - name: Mot de Passe GUI
   debug: msg="Mot De Passe GUI =>  {{ awxpasswd.stdout_lines}}"
-  ignore_errors: yes
-  notify: clean

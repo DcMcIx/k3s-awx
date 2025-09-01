@@ -1,5 +1,0 @@
----
-- name: clean
-  file:
-    path: "{{path_awx_tmp}}"
-    state: absent
