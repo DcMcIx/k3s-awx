@@ -55,29 +55,23 @@
     repo: https://github.com/ansible/awx-operator.git
     dest: "{{path_awx_tmp}}"
 
-- name: Création du NS
-  k8s:
-    name: awx
-    api_version: v1
-    kind: Namespace
-    state: present
-
-- name: Get AWX Namespace
+- name: Installation Helm Via Script
   shell:
-    cmd: kubectl get namespaces |grep -i awx
-  register: gns
-- name: Afficher les NS
-  debug: msg="{{ gns.stdout_lines }}"
-
-- name: Export Vars & Make Deploy
-  shell:
-    cmd: "{{ item }}"
-    chdir: "{{path_awx_tmp}}"
+    chdir: "{{temp_dir}}"
+    cmd: "{{item}}"
   loop:
-    - "kubectl config set-context --current --namespace=awx"
-    - git checkout `curl -s https://api.github.com/repos/ansible/awx-operator/releases/latest | grep tag_name | cut -d '"' -f 4`
-    - "export NAMESPACE=awx"
-    - "make deploy"
+    - curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+    - chmod 700 get_helm.sh
+    - "./get_helm.sh"
+
+- name: Add AWX Repo & Update
+  shell:
+    chdir: "{{path_awx_tmp}}"
+    cmd: "{{item}}"
+  loop:
+    - "helm repo add awx-operator https://ansible-community.github.io/awx-operator-helm/"
+    - "helm repo update"
+    - "helm install ansible-awx-operator awx-operator/awx-operator -n awx --create-namespace"
     
 - name: Pause de 1 minutes ...
   pause:
