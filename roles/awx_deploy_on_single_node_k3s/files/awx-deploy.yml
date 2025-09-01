@@ -18,7 +18,7 @@ spec:
     requests:
       storage: 8Gi
     limits:
-      storage: 50Gi
+      storage: 15Gi
   web_extra_volume_mounts: |
     - name: static-data
       mountPath: /var/lib/projects
