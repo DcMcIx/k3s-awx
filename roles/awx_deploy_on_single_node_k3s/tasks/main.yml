@@ -95,12 +95,12 @@
 
 - name: AWX Operator Port
   shell: 
-    cmd: kubectl get svc -l "app.kubernetes.io/managed-by=awx-operator" | grep -i NodePort
+    cmd: kubectl get svc -l "app.kubernetes.io/managed-by=awx-operator" -n awx | grep -i NodePort
   register: awxport
 - name:
   debug: msg="{{ awxport.stdout_lines }}"
 
-- name: Ajout Aliases pour root 
+- name: Ajout Aliases pour root
   lineinfile:
     path: "/root/.bashrc"
     line: "kubectl config set-context --current --namespace=awx"
