@@ -1,10 +1,4 @@
 ---
-- name: Nettoyage
-  file:
-    path: "{{path_awx_tmp}}"
-    state: absent
-  ignore_errors: yes
-
 - name: Install Prerequis
   apt:
     update_cache: yes
@@ -50,14 +44,9 @@
   shell:
     cmd: "export KUBECONFIG=~/.kube/config"
 
-- name: Clone Git Repo AWX-Operator
-  git:
-    repo: https://github.com/ansible/awx-operator.git
-    dest: "{{path_awx_tmp}}"
-
 - name: Installation Helm Via Script
   shell:
-    chdir: "{{temp_dir}}"
+    chdir: "{{path_awx_tmp}}"
     cmd: "{{item}}"
   loop:
     - curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
