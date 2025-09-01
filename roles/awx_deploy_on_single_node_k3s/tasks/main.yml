@@ -1,10 +1,4 @@
 ---
-- name: Nettoyage
-  file:
-    path: "{{path_awx_tmp}}"
-    state: absent
-  ignore_errors: yes
-
 - name: Install Prerequis
   apt:
     update_cache: yes
@@ -50,34 +44,23 @@
   shell:
     cmd: "export KUBECONFIG=~/.kube/config"
 
-- name: Clone Git Repo AWX-Operator
-  git:
-    repo: https://github.com/ansible/awx-operator.git
-    dest: "{{path_awx_tmp}}"
-
-- name: Création du NS
-  k8s:
-    name: awx
-    api_version: v1
-    kind: Namespace
-    state: present
-
-- name: Get AWX Namespace
+- name: Installation Helm Via Script
   shell:
-    cmd: kubectl get namespaces |grep -i awx
-  register: gns
-- name: Afficher les NS
-  debug: msg="{{ gns.stdout_lines }}"
-
-- name: Export Vars & Make Deploy
-  shell:
-    cmd: "{{ item }}"
     chdir: "{{path_awx_tmp}}"
+    cmd: "{{item}}"
   loop:
-    - "kubectl config set-context --current --namespace=awx"
-    - git checkout `curl -s https://api.github.com/repos/ansible/awx-operator/releases/latest | grep tag_name | cut -d '"' -f 4`
-    - "export NAMESPACE=awx"
-    - "make deploy"
+    - curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+    - chmod 700 get_helm.sh
+    - "./get_helm.sh"
+
+- name: Add AWX Repo & Update
+  shell:
+    chdir: "{{path_awx_tmp}}"
+    cmd: "{{item}}"
+  loop:
+    - "helm repo add awx-operator https://ansible-community.github.io/awx-operator-helm/"
+    - "helm repo update"
+    - "helm install ansible-awx-operator awx-operator/awx-operator -n awx --create-namespace"
     
 - name: Pause de 1 minutes ...
   pause:
@@ -91,13 +74,13 @@
     group: root
     mode: '0755'
   loop:
-    - pvc.yml
+    - awx-pvc.yml
     - awx-deploy.yml
 
 - name: Création Stockage PVC - Persistant
   k8s:
     state: present
-    src: "{{path_awx_tmp}}/pvc.yml"
+    src: "{{path_awx_tmp}}/awx-pvc.yml"
     
 - name: Awx Deploiement - Operator - Web - Postgres
   k8s:
@@ -112,12 +95,12 @@
 
 - name: AWX Operator Port
   shell: 
-    cmd: kubectl get svc -l "app.kubernetes.io/managed-by=awx-operator" | grep -i NodePort
+    cmd: kubectl get svc -l "app.kubernetes.io/managed-by=awx-operator" -n awx | grep -i NodePort
   register: awxport
 - name:
   debug: msg="{{ awxport.stdout_lines }}"
 
-- name: Ajout Aliases pour root 
+- name: Ajout Aliases pour root
   lineinfile:
     path: "/root/.bashrc"
     line: "kubectl config set-context --current --namespace=awx"
@@ -127,8 +110,6 @@
   shell:
     cmd: kubectl get secret awx-admin-password -o jsonpath="{.data.password}" | base64 --decode
   register: awxpasswd
-  ignore_errors: yes
+
 - name: Mot de Passe GUI
   debug: msg="Mot De Passe GUI =>  {{ awxpasswd.stdout_lines}}"
-  ignore_errors: yes
-  notify: clean

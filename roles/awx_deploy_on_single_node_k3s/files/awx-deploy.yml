@@ -3,15 +3,26 @@ apiVersion: awx.ansible.com/v1beta1
 kind: AWX
 metadata:
   name: awx
+  namespace: awx
 spec:
+  admin_user: DcMcIx
+  admin_email: karim.tabarak@dcmcix.net
   service_type: nodeport
   projects_persistence: true
   projects_storage_access_mode: ReadWriteOnce
   nodeport_port: 30080
+  postgres_init_container_commands: |
+    chown 26:0 /var/lib/pgsql/data
+    chmod 700 /var/lib/pgsql/data
+  postgres_storage_requirements:
+    requests:
+      storage: 8Gi
+    limits:
+      storage: 15Gi
   web_extra_volume_mounts: |
-    - name: static-data
+    - name: awx-static-data
       mountPath: /var/lib/projects
   extra_volumes: |
-    - name: static-data
+    - name: awx-static-data
       persistentVolumeClaim:
-        claimName: static-data-pvc
+        claimName: awx-static-data-pvc

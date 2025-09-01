@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: static-data-pvc
+  name: awx-static-data-pvc
   namespace: awx
 spec:
   accessModes:
