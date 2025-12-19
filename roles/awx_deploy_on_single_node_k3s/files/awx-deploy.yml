@@ -6,10 +6,12 @@ metadata:
   namespace: awx
 spec:
   ee_images:
-    - name: DcMcIx-Custom-EE
+    - name: DcMcIx-Custom-EE (Latest)
       image: quay.io/dcmcix/dcmcix-awx-ee:latest
-    - name: DcMcIx-Custom-EE-BACKUP
+    - name: DcMcIx-Custom-EE-BACKUP (Latest)
       image: docker.io/dcmcix/dcmcix-awx-ee:latest
+    - name: DcMcIx-Custom-EE-2.19.1 (2.19.1)
+      image: docker.io/dcmcix/dcmcix-awx-ee:2.19.1
   admin_user: DcMcIx
   admin_email: karim.tabarak@dcmcix.net
   service_type: nodeport
