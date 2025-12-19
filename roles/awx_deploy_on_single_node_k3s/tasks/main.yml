@@ -108,7 +108,7 @@
 
 - name: Décodage du Mot De Passe GUI
   shell:
-    cmd: kubectl get secret awx-admin-password -o jsonpath="{.data.password}" | base64 --decode
+    cmd: kubectl get secret -n awx awx-admin-password -o jsonpath="{.data.password}" | base64 --decode
   register: awxpasswd
 
 - name: Mot de Passe GUI
