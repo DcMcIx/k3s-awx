@@ -5,6 +5,10 @@ metadata:
   name: awx
   namespace: awx
 spec:
+  ee_images:
+    - name: DcMcIx-Custom-EE
+      image: quay.io/dcmcix/dcmcix-awx-ee:latest
+  control_plane_ee_image: quay.io/dcmcix/dcmcix-awx-ee:latest
   admin_user: DcMcIx
   admin_email: karim.tabarak@dcmcix.net
   service_type: nodeport
