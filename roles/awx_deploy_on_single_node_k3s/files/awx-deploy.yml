@@ -8,6 +8,8 @@ spec:
   ee_images:
     - name: DcMcIx-Custom-EE
       image: quay.io/dcmcix/dcmcix-awx-ee:latest
+    - name: DcMcIx-Custom-EE-BACKUP
+      image: docker.io/dcmcix/dcmcix-awx-ee:latest
   admin_user: DcMcIx
   admin_email: karim.tabarak@dcmcix.net
   service_type: nodeport
@@ -19,9 +21,9 @@ spec:
     chmod 700 /var/lib/pgsql/data
   postgres_storage_requirements:
     requests:
-      storage: 8Gi
+      storage: 10Gi
     limits:
-      storage: 15Gi
+      storage: 20Gi
   web_extra_volume_mounts: |
     - name: awx-static-data
       mountPath: /var/lib/projects
