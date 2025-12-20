@@ -8,4 +8,4 @@
     - name: Include AWX Roles
       include_role: 
         name: awx_undeploy_single_node_k3s
-      when: ansible_distribution == "Debian"
+      when: ansible_facts['distribution'] == "Debian"

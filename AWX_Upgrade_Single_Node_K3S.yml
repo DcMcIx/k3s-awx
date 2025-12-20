@@ -9,7 +9,7 @@
           - "La configuration matérielle du serveur ne correspond pas au minimum requis ! DcMcIx.net"
           - "Votre configuration actuelle :"
           - "OS : {{ansible_os_family}}" 
-      when: ansible_distribution != "Debian"
+      when: ansible_facts['distribution'] != "Debian"
 
 - name: Upgrade AWX
   hosts: all
@@ -18,4 +18,4 @@
     - name: Include AWX Roles
       include_role: 
         name: awx_upgrade_single_node_k3s
-      when: ansible_distribution == "Debian"
+      when: ansible_facts['distribution'] == "Debian"
