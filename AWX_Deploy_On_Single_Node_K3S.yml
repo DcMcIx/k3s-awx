@@ -8,7 +8,7 @@
         msg:
           - "La configuration matérielle du serveur ne correspond pas au minimum requis ! DcMcIx.net"
           - "Votre configuration actuelle :"
-          - "OS : {{ ansible_facts['distribution'] }}"
+          - "OS : {{ansible_distribution}}"
       when: ansible_facts['distribution'] != "Debian"
 
 - name: Installation AWX V2
