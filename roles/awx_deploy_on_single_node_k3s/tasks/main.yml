@@ -53,15 +53,28 @@
     - chmod 700 get_helm.sh
     - "./get_helm.sh"
 
-- name: Add AWX Repo & Update
-  shell:
-    chdir: "{{path_awx_tmp}}"
-    cmd: "{{item}}"
-  loop:
-    - "helm repo add awx-operator https://ansible-community.github.io/awx-operator-helm/"
-    - "helm repo update"
-    - "helm install ansible-awx-operator awx-operator/awx-operator -n awx --create-namespace"
-    
+#- name: Add AWX Repo & Update
+#  shell:
+#    chdir: "{{path_awx_tmp}}"
+#    cmd: "{{item}}"
+#  loop:
+#    - "helm repo add awx-operator https://ansible-community.github.io/awx-operator-helm/"
+#    - "helm repo update"
+#    - "helm install ansible-awx-operator awx-operator/awx-operator -n awx --create-namespace"
+
+- name: Ajout AWX-Operator Helm chart repository
+  kubernetes.core.helm_repository:
+    name: awx-operator
+    repo_url: https://ansible-community.github.io/awx-operator-helm
+
+- name: Deploy AWX-Operator Helm Chart
+  kubernetes.core.helm:
+    name: ansible-awx-operator
+    chart_ref: awx-operator/awx-operator
+    release_namespace: awx
+    create_namespace: true
+    update_repo_cache: true
+
 - name: Pause de 1 minutes ...
   pause:
     minutes: 1
