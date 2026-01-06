@@ -47,13 +47,17 @@ Note : All AWX Deployment and K3S will be deleted
 ## Custom AWX-EE
 You can use my custom EE (Including community.general and many other collections)
 
-AWX-EE with PY39 :
+AWX-EE with Ansible-Core 2.20.1 (Python3.14) :
 ```bash
-docker.io/dcmcix/py39-awx-ee:latest
+docker.io/dcmcix/dcmcix-awx-ee:latest
+OR
+quay.io/dcmcix/dcmcix-awx-ee:latest
 ```
-AWX-EE with PY38 :
+AWX-EE with Ansible-Core 2.19.1 (Python3.13) :
 ```bash
-docker.io/dcmcix/awx-ee:latest
+docker.io/dcmcix/dcmcix-awx-ee:2.19.1
+OR
+quay.io/dcmcix/dcmcix-awx-ee:2.19.1
 ```
 ## FAQ
 
