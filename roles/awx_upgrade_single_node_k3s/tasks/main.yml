@@ -1,13 +1,7 @@
 ---
-- name: Nettoyage
-  file:
-    path: "{{path_awx_tmp}}"
-    state: absent
-  ignore_errors: yes
-
 - name: Version de l'image AWX-Operator actuelle
   shell:
-    chdir:
+    chdir: "{{path_awx_tmp}}"
     cmd: "kubectl describe pod awx-operator-controller-manager | grep quay.io/ansible/awx-operator |grep -i 'Image:'"
   register: awx_old_img_ver
 - debug:
@@ -55,7 +49,7 @@
 - name: Export Vars & Make Deploy
   shell:
     cmd: "{{ item }}"
-    chdir: "{{path_awx_tmp}}"
+    chdir: "{{path_awx_tmp}}/awx-operator"
   loop:
     - "kubectl config set-context --current --namespace=awx"
     - git checkout `curl -s https://api.github.com/repos/ansible/awx-operator/releases/latest | grep tag_name | cut -d '"' -f 4`
