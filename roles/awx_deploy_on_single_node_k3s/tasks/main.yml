@@ -2,21 +2,29 @@
 - name: Install Prerequis
   apt:
     update_cache: yes
-    name: "{{ item }}"
+    name:
+      - make
+      - curl
+      - sudo
+      - net-tools
+      - git
+      - build-essential
+      - jq
+      - python3
+      - python3-pip
     state: latest
-  loop:
-    - make
-    - curl
-    - sudo
-    - net-tools
-    - git
-    - build-essential
-    - jq
-    - python3
-    - python3-pip
 
-- name: Install Kubernetes Plugins Debian
-  shell: pip3 install setuptools kubernetes --break-system-packages
+- name: Install S3 Python Plugins Debian
+  pip:
+    name:
+      - setuptools
+      - boto3
+      - botocore
+      - crypto
+      - cryptography
+      - kubernetes
+    state: latest
+    extra_args: "--break-system-packages --upgrade"
 
 - name: Création du Répertoire /.kube
   file:
