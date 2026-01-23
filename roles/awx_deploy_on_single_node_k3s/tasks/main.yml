@@ -1,5 +1,5 @@
 ---
-- name: Install Prerequis
+- name: Installation de Prérequis
   apt:
     update_cache: yes
     name:
@@ -12,9 +12,10 @@
       - jq
       - python3
       - python3-pip
+      - cloud-utils
     state: latest
 
-- name: Install S3 Python Plugins Debian
+- name: Install Paquets Python Kubernetes
   pip:
     name:
       - setuptools
