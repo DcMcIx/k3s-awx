@@ -30,8 +30,8 @@
 
 - name: Installation Helm Via Script
   shell:
-    chdir: "{{path_awx_tmp}}"
-    cmd: "{{item}}"
+    chdir: "{{ path_awx_tmp }}"
+    cmd: "{{ item }}"
   loop:
     - curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
     - chmod 700 get_helm.sh
@@ -57,7 +57,7 @@
 - name: Copie des fichiers manifest Deploy & PVC
   copy:
     src: "{{ item }}"
-    dest: "{{path_awx_tmp}}"
+    dest: "{{ path_awx_tmp }}"
     owner: root
     group: root
     mode: '0755'
@@ -68,14 +68,14 @@
 - name: Création Stockage PVC - Persistant
   k8s:
     state: present
-    src: "{{path_awx_tmp}}/awx-pvc.yml"
+    src: "{{ path_awx_tmp }}/awx-pvc.yml"
     
 - name: Awx Deploiement - Operator - Web - Postgres
   k8s:
     state: present
     name: awx
     namespace: awx
-    src: "{{path_awx_tmp}}/awx-deploy.yml"
+    src: "{{ path_awx_tmp }}/awx-deploy.yml"
 
 - name: Pause de 5 minutes ...
   pause:
