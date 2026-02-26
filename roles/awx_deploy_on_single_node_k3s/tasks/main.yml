@@ -1,32 +1,6 @@
 ---
-- name: Installation de Prérequis
-  apt:
-    update_cache: yes
-    name:
-      - make
-      - curl
-      - sudo
-      - net-tools
-      - git
-      - build-essential
-      - jq
-      - python3
-      - python3-pip
-      - cloud-utils
-    state: latest
-
-- name: Install Paquets Python Kubernetes
-  pip:
-    name:
-      - setuptools
-      - boto3
-      - botocore
-      - crypto
-      - cryptography
-      - kubernetes
-      - cloudflare
-    state: latest
-    extra_args: "--break-system-packages --upgrade"
+- name: Prérequis AWX
+  include_tasks: awx_prerequis.yml
 
 - name: Création du Répertoire /.kube
   file:
