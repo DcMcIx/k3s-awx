@@ -11,7 +11,7 @@ spec:
     - name: DcMcIx-Custom-EE-BACKUP (Latest)
       image: docker.io/dcmcix/dcmcix-awx-ee:latest
     - name: DcMcIx-Custom-EE-2.20.2 (2.20.2)
-      image: docker.io/dcmcix/dcmcix-awx-ee:2.20.1
+      image: docker.io/dcmcix/dcmcix-awx-ee:2.20.2
     - name: DcMcIx-Custom-EE-2.20.1 (2.20.1)
       image: docker.io/dcmcix/dcmcix-awx-ee:2.20.1
     - name: DcMcIx-Custom-EE-2.19.1 (2.19.1)
