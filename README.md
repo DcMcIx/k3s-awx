@@ -47,13 +47,13 @@ Note : All AWX Deployment and K3S will be deleted
 ## Custom AWX-EE
 You can use my custom EE (Including community.general and many other collections)
 
-AWX-EE with Ansible-Core 2.20.1 (Python3.14) :
+AWX-EE with Ansible-Core 2.20.3 (Py3.14) :
 ```bash
 docker.io/dcmcix/dcmcix-awx-ee:latest
 OR
 quay.io/dcmcix/dcmcix-awx-ee:latest
 ```
-AWX-EE with Ansible-Core 2.19.1 (Python3.13) :
+AWX-EE with Ansible-Core 2.19.1 (Py3.14) :
 ```bash
 docker.io/dcmcix/dcmcix-awx-ee:2.19.1
 OR
@@ -71,7 +71,9 @@ Example: 2vCPU and 4Gi of memory you will need to wait up to 15 minutes to get a
 
 During the deployment process NodePort is displayed througt the play log
 
-http://{{SERVER_IP}}:{{NODEPORT}}
+http://{{SERVER_IP}}:{{NODEPORT}} 
+
+Default NodePort : 30080
 
 #### How to get NodePort after the deployment
 On the AWX-Operator Server :
